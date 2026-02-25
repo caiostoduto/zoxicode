@@ -15,12 +15,15 @@ fi
 # Check if the argument provided is a valid relative path or a zoxide query
 if [ -e "$*" ]; then
   code "$*"
-  zoxide add "$*"
+  if [ -d "$*" ]; then
+    zoxide add "$*"
+  fi
 else
   QUERY_RESULT="$(zoxide query "$*")"
-  if [ -e "$QUERY_RESULT" ]; then
+
+  if [ -d "$QUERY_RESULT" ]; then
     code "$QUERY_RESULT"
-    zoxide add "$*"
+    zoxide add "$QUERY_RESULT"
   else
     exit 1
   fi
